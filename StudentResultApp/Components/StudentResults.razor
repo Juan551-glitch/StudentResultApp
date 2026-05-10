@@ -1,0 +1,116 @@
+﻿@page "/student-results"
+@rendermode InteractiveServer
+@using StudentResultApp.Models
+
+<h3 class="mb-4">Student Result Management System</h3>
+
+<div class="card p-4 shadow-sm">
+
+    <div class="row mb-3">
+
+        <div class="col-md-6">
+            <label class="form-label">Student Number</label>
+
+            <input class="form-control"
+                   @bind="student.StudentNumber" />
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Full Name</label>
+
+            <input class="form-control"
+                   @bind="student.FullName" />
+        </div>
+
+    </div>
+
+    <div class="row mb-3">
+
+        <div class="col-md-6">
+            <label class="form-label">Module</label>
+
+            <input class="form-control"
+                   @bind="student.Module" />
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Mark</label>
+
+            <input type="number"
+                   class="form-control"
+                   @bind="student.Mark" />
+        </div>
+
+    </div>
+
+    <button class="btn btn-primary"
+            @onclick="AddStudent">
+        Add Student Result
+    </button>
+
+</div>
+
+<br />
+
+<table class="table table-bordered table-striped">
+
+    <thead class="table-dark">
+
+        <tr>
+            <th>Student No.</th>
+            <th>Full Name</th>
+            <th>Module</th>
+            <th>Mark</th>
+            <th>Result</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in students)
+        {
+            <tr>
+                <td>@item.StudentNumber</td>
+                <td>@item.FullName</td>
+                <td>@item.Module</td>
+                <td>@item.Mark</td>
+                <td>
+
+                    @if (item.Mark >= 50)
+                    {
+                        <span class="badge bg-success">Pass</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Fail</span>
+                    }
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+@code {
+
+    private Student student = new();
+
+    private List<Student> students = new();
+
+    private void AddStudent()
+    {
+        students.Add(new Student
+        {
+            StudentNumber = student.StudentNumber,
+            FullName = student.FullName,
+            Module = student.Module,
+            Mark = student.Mark
+        });
+
+        student = new Student();
+    }
+
+}
