@@ -94,13 +94,13 @@ This project was created for:
 ## 👨‍💻 Author
 
 **Lusukama Selemani**
+
 Microsoft Certified Trainer (MCT)
+
 Azure & DevOps Engineer
 
 ## 📌 Notes
 
 This is a demonstration and educational project developed for DevOps learning and practical implementation purposes.
 
-```
-```
 
