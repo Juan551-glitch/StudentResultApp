@@ -5,10 +5,8 @@
 StudentResultApp is a modern ASP.NET Core MVC application developed as part of an AZ-400 DevOps demonstration project.  
 The application manages student academic results while showcasing industry-standard DevOps practices using GitHub Actions, automated testing, and CI/CD pipelines.
 
-## 🚀 Project Objectives
-
+## Project Objectives
 This project demonstrates:
-
 - GitHub Version Control
 - Branching and Pull Requests
 - Continuous Integration (CI)
@@ -17,9 +15,7 @@ This project demonstrates:
 - Selenium UI Automated Testing
 - Build Validation Pipelines
 - DevOps Best Practices
-
-## 🛠️ Technologies Used
-
+## Technologies Used
 | Technology | Purpose |
 |---|---|
 | ASP.NET Core MVC | Web Application Framework |
@@ -31,9 +27,7 @@ This project demonstrates:
 | MSTest | Unit Testing |
 | Selenium | UI Automation Testing |
 | Azure VM | Self-Hosted Build Agent |
-
-## ✨ Features
-
+##  Features
 - ✅ Student Management
 - ✅ Result Management
 - ✅ Responsive User Interface
@@ -41,66 +35,47 @@ This project demonstrates:
 - ✅ GitHub Actions Workflow
 - ✅ CI/CD Pipeline Integration
 - ✅ Professional MVC Architecture
-
-## 🧪 Automated Testing
-
+##  Automated Testing
 The project includes:
-
 ### Unit Testing
 - Validation Testing
 - Business Logic Testing
 - Controller Testing
-
 ### Selenium UI Testing
 - Browser Automation
 - UI Validation
 - End-to-End Testing
-
-## 🔄 DevOps Workflow
-
+##  DevOps Workflow
 The following DevOps practices were implemented:
-
 1. Feature Branch Creation
 2. Pull Request Workflow
 3. Build Validation
 4. Automated Test Execution
 5. CI/CD Pipeline Automation
 6. Deployment Using Self-Hosted Agent VM
-
-## 📂 Project Structure
-
+##  Project Structure
 <img width="419" height="656" alt="image" src="https://github.com/user-attachments/assets/13e18020-9d2c-426f-8fca-a669614efa32" />
-
-## ⚙️ GitHub Actions Pipeline
-
+##  GitHub Actions Pipeline
 The pipeline automatically:
-
 * Builds the application
 * Restores dependencies
 * Runs Unit Tests
 * Runs Selenium Tests
 * Validates Pull Requests
 * Prepares deployment artifacts
-## 📸 Demo Purpose
-
+##  Demo Purpose
 This project was created for:
-
 * AZ-400 DevOps demonstrations
 * CI/CD practical implementation
 * DevOps classroom training
 * GitHub Actions learning
 * Azure DevOps concepts demonstration
-
-## 👨‍💻 Author
-
+##  Author
 **Lusukama Selemani**
-
 Microsoft Certified Trainer (MCT)
-
 Azure & DevOps Engineer
 
-## 📌 Notes
-
+##  Notes
 This is a demonstration and educational project developed for DevOps learning and practical implementation purposes.
 
 
