@@ -7,14 +7,46 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-steps:
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '10.x'
+stages:
 
-- script: dotnet restore
-  displayName: 'Restore Packages'
+- stage: Build
+  displayName: 'Build Stage'
+  jobs:
+  - job: BuildJob
+    displayName: 'Build Blazor Application'
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '10.x'
 
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'Build Application'
+    - script: dotnet restore
+      displayName: 'Restore Packages'
+
+    - script: dotnet build --configuration $(buildConfiguration)
+      displayName: 'Build Application'
+
+- stage: Test
+  displayName: 'Test Stage'
+  dependsOn: Build
+  jobs:
+  - job: TestJob
+    displayName: 'Run Tests'
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '10.x'
+
+    - script: dotnet test --configuration $(buildConfiguration) --no-build
+      displayName: 'Run Unit Tests'
+
+- stage: Deploy
+  displayName: 'Deploy Stage'
+  dependsOn: Test
+  jobs:
+  - job: DeployJob
+    displayName: 'Prepare Deployment'
+    steps:
+    - script: echo "Deployment stage completed successfully."
+      displayName: 'Deploy Placeholder'
