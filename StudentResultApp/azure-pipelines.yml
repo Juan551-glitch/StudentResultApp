@@ -1,0 +1,20 @@
+﻿trigger:
+- master
+
+pool:
+  name: Default
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '10.x'
+
+- script: dotnet restore
+  displayName: 'Restore Packages'
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'Build Application'
