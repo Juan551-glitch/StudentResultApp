@@ -25,3 +25,5 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+
+// GitHub Actions Trigger
