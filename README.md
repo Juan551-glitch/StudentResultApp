@@ -32,13 +32,13 @@ This project demonstrates:
 | Azure VM | Self-Hosted Build Agent |
 
 ##  Features
-- ✅ Student Management
-- ✅ Result Management
-- ✅ Responsive User Interface
-- ✅ Automated Testing
-- ✅ GitHub Actions Workflow
-- ✅ CI/CD Pipeline Integration
-- ✅ Professional MVC Architecture
+- Student Management
+- Result Management
+- Responsive User Interface
+- Automated Testing
+- GitHub Actions Workflow
+- CI/CD Pipeline Integration
+- Professional MVC Architecture
 
 ##  Automated Testing
 The project includes:
