@@ -1,12 +1,9 @@
-````md
 # 🎓 StudentResultApp
 
 ## AZ-400 GitHub Actions CI/CD Demo Project
 
 StudentResultApp is a modern ASP.NET Core MVC application developed as part of an AZ-400 DevOps demonstration project.  
 The application manages student academic results while showcasing industry-standard DevOps practices using GitHub Actions, automated testing, and CI/CD pipelines.
-
----
 
 ## 🚀 Project Objectives
 
@@ -20,8 +17,6 @@ This project demonstrates:
 - Selenium UI Automated Testing
 - Build Validation Pipelines
 - DevOps Best Practices
-
----
 
 ## 🛠️ Technologies Used
 
@@ -37,8 +32,6 @@ This project demonstrates:
 | Selenium | UI Automation Testing |
 | Azure VM | Self-Hosted Build Agent |
 
----
-
 ## ✨ Features
 
 - ✅ Student Management
@@ -48,8 +41,6 @@ This project demonstrates:
 - ✅ GitHub Actions Workflow
 - ✅ CI/CD Pipeline Integration
 - ✅ Professional MVC Architecture
-
----
 
 ## 🧪 Automated Testing
 
@@ -65,8 +56,6 @@ The project includes:
 - UI Validation
 - End-to-End Testing
 
----
-
 ## 🔄 DevOps Workflow
 
 The following DevOps practices were implemented:
@@ -78,14 +67,9 @@ The following DevOps practices were implemented:
 5. CI/CD Pipeline Automation
 6. Deployment Using Self-Hosted Agent VM
 
----
-
 ## 📂 Project Structure
 
 <img width="419" height="656" alt="image" src="https://github.com/user-attachments/assets/13e18020-9d2c-426f-8fca-a669614efa32" />
-
-
----
 
 ## ⚙️ GitHub Actions Pipeline
 
@@ -97,9 +81,6 @@ The pipeline automatically:
 * Runs Selenium Tests
 * Validates Pull Requests
 * Prepares deployment artifacts
-
----
-
 ## 📸 Demo Purpose
 
 This project was created for:
@@ -110,15 +91,11 @@ This project was created for:
 * GitHub Actions learning
 * Azure DevOps concepts demonstration
 
----
-
 ## 👨‍💻 Author
 
 **Lusukama Selemani**
 Microsoft Certified Trainer (MCT)
 Azure & DevOps Engineer
-
----
 
 ## 📌 Notes
 
