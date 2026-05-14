@@ -3,8 +3,6 @@
 
 ## AZ-400 GitHub Actions CI/CD Demo Project
 
-## AZ-400 GitHub Actions CI/CD Demo Project
-
 StudentResultApp is a modern ASP.NET Core MVC application developed as part of an AZ-400 DevOps demonstration project.  
 The application manages student academic results while showcasing industry-standard DevOps practices using GitHub Actions, automated testing, and CI/CD pipelines.
 
