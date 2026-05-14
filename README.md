@@ -1,4 +1,5 @@
 # StudentResultApp
+![CI/CD](https://github.com/USERNAME/REPO/actions/workflows/ci-cd.yml/badge.svg)
 
 ## AZ-400 GitHub Actions CI/CD Demo Project
 
