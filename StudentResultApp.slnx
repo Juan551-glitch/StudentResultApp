@@ -1,4 +1,6 @@
 <Solution>
-  <Project Path="StudentResultApp.Tests/StudentResultApp.Tests.csproj" Id="518f3a6b-492e-47a8-99ed-9e2f2c266608" />
+  <Project Path="StudentResultApp.Tests/StudentResultApp.Tests.csproj" Id="518f3a6b-492e-47a8-99ed-9e2f2c266608">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
   <Project Path="StudentResultApp/StudentResultApp.csproj" />
 </Solution>
