@@ -23,20 +23,16 @@ jobs:
           dotnet-version: '10.x'
 
       - name: Restore Packages
-        working-directory: .
-        run: dotnet restore ./StudentResultApp.sln
+        run: dotnet restore StudentResultApp/StudentResultApp.csproj
 
       - name: Build Application
-        working-directory: .
-        run: dotnet build ./StudentResultApp.sln --configuration Release --no-restore
+        run: dotnet build StudentResultApp/StudentResultApp.csproj --configuration Release --no-restore
 
       - name: Run Tests
-        working-directory: .
-        run: dotnet test ./StudentResultApp.sln --configuration Release --no-build --filter "FullyQualifiedName!~StudentResultUiTests"
+        run: dotnet test StudentResultApp.Tests/StudentResultApp.Tests.csproj --configuration Release --filter "FullyQualifiedName!~StudentResultUiTests"
 
       - name: Publish Application
-        working-directory: .
-        run: dotnet publish ./StudentResultApp/StudentResultApp.csproj --configuration Release --output ./publish
+        run: dotnet publish StudentResultApp/StudentResultApp.csproj --configuration Release --output ./publish
 
       - name: Deploy Stage
         run: echo "Deployment completed successfully"
