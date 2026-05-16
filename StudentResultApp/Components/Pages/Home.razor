@@ -1,102 +1,139 @@
 ﻿@page "/"
 
-<div class="container-fluid">
+<div class="container-fluid dashboard-container">
 
-    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm">
-        <div class="container-fluid py-4">
-            <h1 class="display-5 fw-bold">Student Result Management System</h1>
+    <!-- HERO SECTION -->
+    <div class="hero-section shadow-lg">
 
-            <p class="col-md-10 fs-5">
-                A modern academic management platform built with Blazor and Azure DevOps to streamline student result processing, reporting, and system collaboration.
+        <div class="hero-content">
+
+            <span class="devops-badge">
+                Azure DevOps Enabled
+            </span>
+
+            <h1 class="hero-title">
+                Student Result Management System
+            </h1>
+
+            <p class="hero-text">
+                A modern Blazor-based academic management platform designed
+                to streamline student result processing, reporting,
+                and cloud-based DevOps deployment workflows.
             </p>
 
-            <a class="btn btn-primary btn-lg" href="/student-results">
+            <a class="btn btn-light btn-lg hero-btn" href="/student-results">
                 Open Result Management
             </a>
-        </div>
-    </div>
 
-    <div class="row g-4">
-
-        <div class="col-md-3">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h5 class="card-title">Students</h5>
-                    <p class="display-6 fw-bold">14</p>
-                    <p class="text-muted">Registered learners</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h5 class="card-title">Modules</h5>
-                    <p class="display-6 fw-bold">4</p>
-                    <p class="text-muted">Active academic modules</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h5 class="card-title">Pass Rate</h5>
-                    <p class="display-6 fw-bold">86%</p>
-                    <p class="text-muted">Current performance summary</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h5 class="card-title">DevOps Status</h5>
-                    <p class="display-6 fw-bold">Active</p>
-                    <p class="text-muted">Azure Repos workflow enabled</p>
-                </div>
-            </div>
         </div>
 
     </div>
 
-    <div class="row mt-5">
+    <!-- KPI SECTION -->
+    <div class="row g-4 mt-2">
+
+        <div class="col-md-3">
+            <div class="card stats-card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="stats-title">Students</h6>
+                    <h2 class="stats-value">14</h2>
+                    <p class="stats-text">Registered learners</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card stats-card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="stats-title">Modules</h6>
+                    <h2 class="stats-value">4</h2>
+                    <p class="stats-text">Academic modules</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card stats-card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="stats-title">Pass Rate</h6>
+                    <h2 class="stats-value">86%</h2>
+                    <p class="stats-text">Performance summary</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card stats-card border-0 shadow-sm status-card">
+                <div class="card-body">
+                    <h6 class="stats-title">Deployment</h6>
+                    <h2 class="stats-value text-success">Live</h2>
+                    <p class="stats-text">Azure App Service active</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FEATURE SECTION -->
+    <div class="row mt-5 g-4">
 
         <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header fw-bold">
+
+            <div class="card feature-card shadow-sm border-0">
+
+                <div class="card-header feature-header">
                     System Features
                 </div>
+
                 <div class="card-body">
-                    <ul>
-                        <li>Capture student marks</li>
-                        <li>Calculate pass or fail results</li>
-                        <li>View results in a structured table</li>
-                        <li>Track development using Azure Boards and Git</li>
+
+                    <ul class="feature-list">
+                        <li>Capture and manage student marks</li>
+                        <li>Generate pass/fail results automatically</li>
+                        <li>Display results in structured tables</li>
+                        <li>Support DevOps-based development workflows</li>
+                        <li>Deploy automatically to Microsoft Azure</li>
                     </ul>
+
                 </div>
+
             </div>
+
         </div>
 
         <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header fw-bold">
-                    DevOps Workflow
+
+            <div class="card feature-card shadow-sm border-0">
+
+                <div class="card-header feature-header">
+                    CI/CD Workflow
                 </div>
+
                 <div class="card-body">
-                    <p>
-                        This application is developed using Azure DevOps Boards,
-                        Azure Repos, Git feature branches, commits, pull requests,
-                        and traceable work items.
+
+                    <p class="workflow-text">
+                        This application integrates GitHub Actions,
+                        automated build validation, testing,
+                        publishing, and deployment to Azure App Service
+                        using modern DevOps engineering practices.
                     </p>
 
-                    <a class="btn btn-outline-primary" href="/student-results">
-                        Open Result Management
+                    <a class="btn btn-outline-primary workflow-btn"
+                       href="/student-results">
+                        View Result Dashboard
                     </a>
+
                 </div>
+
             </div>
+
         </div>
 
     </div>
+
+    @* <!-- FOOTER -->
+    <footer class="dashboard-footer">
+        SRMS © 2026 | Blazor • GitHub Actions • Azure App Service
+    </footer> *@
 
 </div>
