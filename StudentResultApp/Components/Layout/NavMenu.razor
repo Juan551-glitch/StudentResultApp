@@ -1,25 +1,63 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">SRMS Portal </a>
+﻿<div class="sidebar-container">
+
+    <!-- HEADER -->
+    <div class="sidebar-header">
+
+        <div class="logo-circle">
+            🎓
+        </div>
+
+        <div class="brand-text">
+            <h4>SRMS Portal</h4>
+            <span>Azure DevOps Edition</span>
+        </div>
+
     </div>
-</div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+    <!-- NAVIGATION -->
+    <nav class="sidebar-nav">
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
+        <NavLink class="nav-link"
+                 href=""
+                 Match="NavLinkMatch.All">
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-speedometer2-nav-menu" aria-hidden="true"></span> Home Dashboard
-            </NavLink>
-        </div>
+            <span class="nav-icon">🏠</span>
+            <span>Dashboard</span>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="student-results">
-                <span class="bi bi-clipboard-data-nav-menu" aria-hidden="true"></span> Student Results
-            </NavLink>
-        </div>
+        </NavLink>
+
+        <NavLink class="nav-link"
+                 href="student-results">
+
+            <span class="nav-icon">📊</span>
+            <span>Student Results</span>
+
+        </NavLink>
+
+        <NavLink class="nav-link"
+                 href="#">
+
+            <span class="nav-icon">📚</span>
+            <span>Modules</span>
+
+        </NavLink>
+
+        <NavLink class="nav-link"
+                 href="#">
+
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+
+        </NavLink>
 
     </nav>
+
+    <!-- FOOTER -->
+    <div class="sidebar-footer">
+
+        <small>SRMS v1.0</small>
+        <small>Powered by Blazor & Azure</small>
+
+    </div>
+
 </div>
