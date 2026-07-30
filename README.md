@@ -17,6 +17,7 @@ This project demonstrates:
 - Selenium UI Automated Testing
 - Build Validation Pipelines
 - DevOps Best Practices
+- Others
 
 ## Technologies Used
 
