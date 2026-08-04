@@ -3,6 +3,7 @@
     public class Student
     {
         public int Id { get; set; }
+        // ADD A LINE
 
         public string StudentNumber { get; set; } = string.Empty;
 
