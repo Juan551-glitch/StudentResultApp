@@ -1,0 +1,175 @@
+/* CSS for Settings component */
+.settings-page {
+    width: 100%;
+}
+
+.page-header {
+    margin-bottom: 24px;
+}
+
+    .page-header h1 {
+        margin: 0 0 5px;
+        color: #102033;
+        font-size: 2rem;
+        font-weight: 750;
+    }
+
+    .page-header p {
+        margin: 0;
+        color: #64748b;
+    }
+
+
+/* GRID */
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+
+/* CARDS */
+
+.settings-card {
+    background: #ffffff;
+    border: 1px solid #dce4ec;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(15, 31, 48, 0.05);
+    overflow: hidden;
+}
+
+.settings-card-header {
+    padding: 20px 22px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #ffffff;
+}
+
+    .settings-card-header h5 {
+        margin: 0 0 4px;
+        color: #102033;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .settings-card-header p {
+        margin: 0;
+        color: #8a9aaf;
+        font-size: 0.82rem;
+    }
+
+.settings-card-body {
+    padding: 22px;
+}
+
+
+/* FORM */
+
+.setting-group {
+    margin-bottom: 18px;
+}
+
+    .setting-group:last-child {
+        margin-bottom: 0;
+    }
+
+    .setting-group label {
+        display: block;
+        margin-bottom: 7px;
+        color: #334155;
+        font-size: 0.83rem;
+        font-weight: 650;
+    }
+
+    .setting-group .form-control {
+        height: 42px;
+        border: 1px solid #dce4ec;
+        border-radius: 8px;
+        font-size: 0.9rem;
+    }
+
+        .setting-group .form-control:focus {
+            border-color: #1677c8;
+            box-shadow: 0 0 0 3px rgba(22, 119, 200, 0.12);
+        }
+
+
+/* INFORMATION ROWS */
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid #edf2f7;
+    color: #52657a;
+    font-size: 0.87rem;
+}
+
+    .setting-row:first-child {
+        padding-top: 0;
+    }
+
+    .setting-row:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .setting-row strong {
+        color: #102033;
+        font-weight: 650;
+    }
+
+
+/* STATUS */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+    .status-badge.active {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+
+/* ACTIONS */
+
+.settings-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+    .settings-actions .btn {
+        padding: 9px 18px;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .settings-actions {
+        flex-direction: column;
+    }
+
+        .settings-actions .btn {
+            width: 100%;
+        }
+}

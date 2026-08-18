@@ -1,10 +1,12 @@
 using StudentResultApp.Components;
+using StudentResultApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+builder.Services.AddScoped<ModuleService>();
 
 var app = builder.Build();
 

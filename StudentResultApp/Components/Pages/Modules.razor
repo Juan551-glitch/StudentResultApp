@@ -1,0 +1,577 @@
+﻿@page "/modules"
+
+@using StudentResultApp.Models
+@using StudentResultApp.Services
+@inject ModuleService ModuleService
+
+@rendermode InteractiveServer
+
+<PageTitle>Modules - SRMS</PageTitle>
+
+
+<div class="modules-page">
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <div>
+            <h1>Modules</h1>
+
+            <p>
+                Manage academic modules available in the
+                Student Result Management System.
+            </p>
+        </div>
+
+        <button class="btn btn-primary add-button"
+                @onclick="OpenAddModal">
+
+            + Add Module
+
+        </button>
+
+    </div>
+
+
+    <!-- MODULE CARD -->
+
+    <div class="module-card">
+
+        <!-- TOOLBAR -->
+
+        <div class="module-toolbar">
+
+            <div>
+                <h5>Academic Modules</h5>
+                <p>
+                    View and manage registered modules
+                    <span class="module-count">@modules.Count modules</span>
+                </p>
+            </div>
+
+
+            <div class="module-filters">
+
+                <input class="form-control search-box"
+                       placeholder="Search modules..."
+                       @bind="searchText"
+                       @bind:event="oninput" />
+
+
+                <select class="form-select status-filter"
+                        @bind="statusFilter">
+
+                    <option value="">All Statuses</option>
+
+                    <option value="Active">
+                        Active
+                    </option>
+
+                    <option value="Inactive">
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="table-responsive">
+
+            <table class="table module-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Code</th>
+
+                        <th>Module Name</th>
+
+                        <th>Year</th>
+
+                        <th>Students</th>
+
+                        <th>Status</th>
+
+                        <th class="text-end">
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    @if (!FilteredModules.Any())
+                    {
+                        <tr>
+
+                            <td colspan="6"
+                                class="empty-state">
+
+                                No modules found.
+
+                            </td>
+
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var module in FilteredModules)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    <span class="module-code">
+
+                                        @module.Code
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="module-name">
+
+                                        @module.Name
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    @module.AcademicYear
+
+                                </td>
+
+
+                                <td>
+
+                                    @module.StudentCount
+
+                                </td>
+
+
+                                <td>
+
+                                    @if (module.Status == "Active")
+                                    {
+                                        <span class="status-badge active">
+
+                                            ● Active
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-badge inactive">
+
+                                            ● Inactive
+
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <td class="text-end">
+
+                                    <button class="action-button edit"
+                                            @onclick="() => OpenEditModal(module)">
+
+                                        Edit
+
+                                    </button>
+
+
+                                    <button class="action-button delete"
+                                            @onclick="() => OpenDeleteModal(module)">
+
+                                        Delete
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ADD / EDIT MODAL -->
+@if (showModuleModal)
+{
+    <div class="modal-backdrop-custom">
+
+        <div class="module-modal">
+
+            <div class="modal-header-custom">
+
+                <div>
+
+                    <h4>
+                        @(isEditing
+                            ? "Edit Module"
+                            : "Add New Module")
+                    </h4>
+
+                    <p>
+                        @(isEditing
+                            ? "Update the selected academic module."
+                            : "Register a new academic module.")
+                    </p>
+
+                </div>
+
+                <button class="modal-close"
+                        @onclick="CloseModuleModal">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <EditForm Model="editingModule"
+                      OnValidSubmit="SaveModule"
+                      FormName="ModuleForm">
+
+                <DataAnnotationsValidator />
+
+                <div class="modal-body-custom">
+
+
+                    <div class="form-group-custom">
+
+                        <label>
+                            Module Code
+                        </label>
+
+                        <InputText class="form-control"
+                                   @bind-Value="editingModule.Code"
+                                   placeholder="e.g. MDB622" />
+
+                        <ValidationMessage For="@(() => editingModule.Code)" />
+
+                    </div>
+
+
+                    <div class="form-group-custom">
+
+                        <label>
+                            Module Name
+                        </label>
+
+                        <InputText class="form-control"
+                                   @bind-Value="editingModule.Name"
+                                   placeholder="Enter module name" />
+
+                        <ValidationMessage For="@(() => editingModule.Name)" />
+
+                    </div>
+
+
+                    <div class="form-row-custom">
+
+                        <div class="form-group-custom">
+
+                            <label>
+                                Academic Year
+                            </label>
+
+                            <InputNumber class="form-control"
+                                         @bind-Value="editingModule.AcademicYear" />
+
+                        </div>
+
+
+                        <div class="form-group-custom">
+
+                            <label>
+                                Students
+                            </label>
+
+                            <InputNumber class="form-control"
+                                         @bind-Value="editingModule.StudentCount" />
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group-custom">
+
+                        <label>
+                            Status
+                        </label>
+
+                        <InputSelect class="form-select"
+                                     @bind-Value="editingModule.Status">
+
+                            <option value="Active">
+                                Active
+                            </option>
+
+                            <option value="Inactive">
+                                Inactive
+                            </option>
+
+                        </InputSelect>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer-custom">
+
+                    <button type="button"
+                            class="btn btn-light"
+                            @onclick="CloseModuleModal">
+
+                        Cancel
+
+                    </button>
+
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        @(isEditing
+                            ? "Save Changes"
+                            : "Add Module")
+
+                    </button>
+
+                </div>
+
+            </EditForm>
+
+        </div>
+
+    </div>
+}
+
+
+<!-- DELETE CONFIRMATION -->
+@if (showDeleteModal && moduleToDelete != null)
+{
+    <div class="modal-backdrop-custom">
+
+        <div class="delete-modal">
+
+            <div class="delete-icon">
+                !
+            </div>
+
+            <h4>
+                Delete Module?
+            </h4>
+
+            <p>
+                Are you sure you want to delete
+                <strong>@moduleToDelete.Code</strong>
+                – @moduleToDelete.Name?
+            </p>
+
+            <p class="delete-warning">
+                This action cannot be undone.
+            </p>
+
+
+            <div class="delete-actions">
+
+                <button class="btn btn-light"
+                        @onclick="CloseDeleteModal">
+
+                    Cancel
+
+                </button>
+
+
+                <button class="btn btn-danger"
+                        @onclick="DeleteModule">
+
+                    Delete Module
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+}
+
+
+@code {
+
+    private List<Module> modules = new();
+
+    private Module editingModule = new();
+
+    private Module? moduleToDelete;
+
+
+    private bool showModuleModal;
+
+    private bool showDeleteModal;
+
+    private bool isEditing;
+
+
+    private string searchText = string.Empty;
+
+    private string statusFilter = string.Empty;
+
+
+    protected override void OnInitialized()
+    {
+        LoadModules();
+    }
+
+
+    private IEnumerable<Module> FilteredModules
+    {
+        get
+        {
+            IEnumerable<Module> result = modules;
+
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                result = result.Where(m =>
+                    m.Code.Contains(
+                        searchText,
+                        StringComparison.OrdinalIgnoreCase)
+                    ||
+                    m.Name.Contains(
+                        searchText,
+                        StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!string.IsNullOrWhiteSpace(statusFilter))
+            {
+                result = result.Where(m =>
+                    m.Status == statusFilter);
+            }
+
+            return result;
+        }
+    }
+
+
+    private void LoadModules()
+    {
+        modules = ModuleService.GetAll();
+    }
+
+
+    private void OpenAddModal()
+    {
+        isEditing = false;
+
+        editingModule = new Module
+        {
+            AcademicYear = 2026,
+            Status = "Active"
+        };
+
+        showModuleModal = true;
+    }
+
+
+    private void OpenEditModal(Module module)
+    {
+        isEditing = true;
+
+        editingModule = new Module
+        {
+            Id = module.Id,
+            Code = module.Code,
+            Name = module.Name,
+            AcademicYear = module.AcademicYear,
+            StudentCount = module.StudentCount,
+            Status = module.Status
+        };
+
+        showModuleModal = true;
+    }
+
+
+    private void CloseModuleModal()
+    {
+        showModuleModal = false;
+
+        editingModule = new Module();
+    }
+
+
+    private void SaveModule()
+    {
+        if (isEditing)
+        {
+            ModuleService.Update(editingModule);
+        }
+        else
+        {
+            ModuleService.Add(editingModule);
+        }
+
+        LoadModules();
+
+        CloseModuleModal();
+    }
+
+
+    private void OpenDeleteModal(Module module)
+    {
+        moduleToDelete = module;
+
+        showDeleteModal = true;
+    }
+
+
+    private void CloseDeleteModal()
+    {
+        moduleToDelete = null;
+
+        showDeleteModal = false;
+    }
+
+
+    private void DeleteModule()
+    {
+        if (moduleToDelete == null)
+            return;
+
+        ModuleService.Delete(moduleToDelete.Id);
+
+        LoadModules();
+
+        CloseDeleteModal();
+    }
+}
