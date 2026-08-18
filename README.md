@@ -1,4 +1,4 @@
-# StudentResultApp
+# StudentResultApp-ADNAAN HOOSEN
 [![CI/CD](https://github.com/lusuJR/StudentResultApp/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/lusuJR/StudentResultApp/actions)
 
 ## AZ-400 GitHub Actions CI/CD Demo Project
