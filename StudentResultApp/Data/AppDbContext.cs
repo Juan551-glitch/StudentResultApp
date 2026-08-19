@@ -24,7 +24,7 @@ namespace StudentResultApp.Data
 
             modelBuilder.Entity<Student>(entity =>
             {
-                entity.ToTable("Students");
+                entity.ToTable("StudentResults");
                 entity.HasKey(s => s.Id);
                 entity.Property(s => s.Module).HasColumnName("ModuleCode");
                 entity.HasIndex(s => s.StudentNumber).IsUnique();
