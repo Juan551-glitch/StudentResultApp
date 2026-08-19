@@ -13,7 +13,7 @@ BEGIN
         StudentNumber  NVARCHAR(20)      NOT NULL,
         FullName       NVARCHAR(100)     NOT NULL,
         ModuleCode     NVARCHAR(20)      NOT NULL,
-        Mark           DECIMAL(5,2)      NOT NULL CONSTRAINT DF_Students_Mark DEFAULT (0),
+        Mark           FLOAT             NOT NULL CONSTRAINT DF_Students_Mark DEFAULT (0), -- FLOAT matches the C# "double" type used by Student.Mark
 
         CONSTRAINT PK_Students PRIMARY KEY CLUSTERED (Id),
         CONSTRAINT UQ_Students_StudentNumber UNIQUE (StudentNumber),

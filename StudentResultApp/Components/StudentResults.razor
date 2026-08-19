@@ -57,8 +57,14 @@
                 Save Student Result
     </button>
 
+    @* Shows a friendly message instead of crashing the page when saving fails. *@
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <p class="text-danger mt-2">@errorMessage</p>
+    }
+
 </div>
-</div>  
+</div>
 </div>
 
 <br />
@@ -120,6 +126,9 @@
 
     private List<Student> students = new();
 
+    // Holds a friendly message to show the user if saving fails.
+    private string? errorMessage;
+
     // Runs when the page first loads. Loads the saved students from the
     // database instead of starting with an empty in-memory list.
     protected override async Task OnInitializedAsync()
@@ -130,16 +139,31 @@
     // Made async because saving now talks to the real database.
     private async Task AddStudent()
     {
+        errorMessage = null; // clear any old error message before trying again
+
         // Add the new student straight to the database table.
-        DbContext.Students.Add(new Student
+        var newStudent = new Student
         {
             StudentNumber = student.StudentNumber,
             FullName = student.FullName,
             Module = student.Module,
             Mark = student.Mark
-        });
+        };
+        DbContext.Students.Add(newStudent);
 
-        await DbContext.SaveChangesAsync(); // actually save it to the database
+        try
+        {
+            await DbContext.SaveChangesAsync(); // actually save it to the database
+        }
+        catch (DbUpdateException)
+        {
+            // This happens if the Module doesn't match an existing module's
+            // Code, or the Student Number is already used. Instead of
+            // crashing the page, show a message and stop here.
+            DbContext.Entry(newStudent).State = EntityState.Detached;
+            errorMessage = "Could not save. Check that the Module matches an existing module's code, and that the Student Number is not already used.";
+            return;
+        }
 
         // Reload the list from the database so the table shows the new row.
         students = await DbContext.Students.ToListAsync();
