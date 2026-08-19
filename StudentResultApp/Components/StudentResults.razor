@@ -1,6 +1,9 @@
 ﻿@page "/student-results"
 @rendermode InteractiveServer
 @using StudentResultApp.Models
+@using Microsoft.EntityFrameworkCore
+@using StudentResultApp.Data
+@inject AppDbContext DbContext
 
 <div class="card shadow-sm mb-4">
 
@@ -117,15 +120,29 @@
 
     private List<Student> students = new();
 
-    private void AddStudent()
+    // Runs when the page first loads. Loads the saved students from the
+    // database instead of starting with an empty in-memory list.
+    protected override async Task OnInitializedAsync()
     {
-        students.Add(new Student
+        students = await DbContext.Students.ToListAsync();
+    }
+
+    // Made async because saving now talks to the real database.
+    private async Task AddStudent()
+    {
+        // Add the new student straight to the database table.
+        DbContext.Students.Add(new Student
         {
             StudentNumber = student.StudentNumber,
             FullName = student.FullName,
             Module = student.Module,
             Mark = student.Mark
         });
+
+        await DbContext.SaveChangesAsync(); // actually save it to the database
+
+        // Reload the list from the database so the table shows the new row.
+        students = await DbContext.Students.ToListAsync();
 
         student = new Student();
     }

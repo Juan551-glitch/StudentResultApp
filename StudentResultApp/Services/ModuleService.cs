@@ -1,95 +1,72 @@
-﻿using StudentResultApp.Models;
+using Microsoft.EntityFrameworkCore; // needed so we can use ToListAsync(), FindAsync(), etc.
+using StudentResultApp.Data; // this gives us access to AppDbContext (the database connection)
+using StudentResultApp.Models;
 
 namespace StudentResultApp.Services
 {
     public class ModuleService
     {
-        private readonly List<Module> _modules = new()
+        // This is the database connection. It gets "injected" (given to us)
+        // automatically because we registered AppDbContext in Program.cs.
+        private readonly AppDbContext _db;
+
+        // The constructor now asks for the database connection instead of
+        // building a fake in-memory list.
+        public ModuleService(AppDbContext db)
         {
-            new Module
-            {
-                Id = 1,
-                Code = "MDB622",
-                Name = "Database Manipulation",
-                AcademicYear = 2026,
-                StudentCount = 14,
-                Status = "Active"
-            },
+            _db = db;
+        }
 
-            new Module
-            {
-                Id = 2,
-                Code = "AZ400",
-                Name = "Designing and Implementing Microsoft DevOps Solutions",
-                AcademicYear = 2026,
-                StudentCount = 14,
-                Status = "Active"
-            },
-
-            new Module
-            {
-                Id = 3,
-                Code = "SDT621",
-                Name = "Software Development",
-                AcademicYear = 2026,
-                StudentCount = 12,
-                Status = "Active"
-            },
-
-            new Module
-            {
-                Id = 4,
-                Code = "DAG511",
-                Name = "Data Analytics",
-                AcademicYear = 2026,
-                StudentCount = 10,
-                Status = "Inactive"
-            }
-        };
-
-        public List<Module> GetAll()
+        // Reads all modules from the real database table, sorted by Code.
+        // "async Task<...>" + "await" means: go talk to the database, and
+        // don't block the app while waiting for the answer.
+        public async Task<List<Module>> GetAllAsync()
         {
-            return _modules
+            return await _db.Modules
                 .OrderBy(m => m.Code)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Module? GetById(int id)
+        // Finds one module by its Id directly in the database.
+        public async Task<Module?> GetByIdAsync(int id)
         {
-            return _modules.FirstOrDefault(m => m.Id == id);
+            return await _db.Modules.FindAsync(id);
         }
 
-        public void Add(Module module)
+        // Adds a new module row to the database.
+        public async Task AddAsync(Module module)
         {
-            module.Id = _modules.Count == 0
-                ? 1
-                : _modules.Max(m => m.Id) + 1;
-
-            _modules.Add(module);
+            _db.Modules.Add(module); // stage the new row
+            await _db.SaveChangesAsync(); // actually save it to the database
         }
 
-        public void Update(Module updatedModule)
+        // Updates an existing module row in the database.
+        public async Task UpdateAsync(Module updatedModule)
         {
-            var existingModule =
-                _modules.FirstOrDefault(m => m.Id == updatedModule.Id);
+            var existingModule = await _db.Modules.FindAsync(updatedModule.Id);
 
             if (existingModule == null)
                 return;
 
+            // Copy the new values onto the row EF Core is already tracking.
             existingModule.Code = updatedModule.Code;
             existingModule.Name = updatedModule.Name;
             existingModule.AcademicYear = updatedModule.AcademicYear;
             existingModule.StudentCount = updatedModule.StudentCount;
             existingModule.Status = updatedModule.Status;
+
+            await _db.SaveChangesAsync(); // save the changes to the database
         }
 
-        public void Delete(int id)
+        // Deletes a module row from the database.
+        public async Task DeleteAsync(int id)
         {
-            var module = _modules.FirstOrDefault(m => m.Id == id);
+            var module = await _db.Modules.FindAsync(id);
 
             if (module != null)
             {
-                _modules.Remove(module);
+                _db.Modules.Remove(module); // stage the delete
+                await _db.SaveChangesAsync(); // actually delete it from the database
             }
         }
     }

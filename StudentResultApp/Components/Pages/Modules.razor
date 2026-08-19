@@ -449,9 +449,11 @@
     private string statusFilter = string.Empty;
 
 
-    protected override void OnInitialized()
+    // Changed to OnInitializedAsync because loading from the database
+    // needs "await" (waiting for the database to answer).
+    protected override async Task OnInitializedAsync()
     {
-        LoadModules();
+        await LoadModulesAsync();
     }
 
 
@@ -484,9 +486,11 @@
     }
 
 
-    private void LoadModules()
+    // Renamed to LoadModulesAsync and made async so it can "await" the
+    // database call instead of using an in-memory list.
+    private async Task LoadModulesAsync()
     {
-        modules = ModuleService.GetAll();
+        modules = await ModuleService.GetAllAsync();
     }
 
 
@@ -530,18 +534,19 @@
     }
 
 
-    private void SaveModule()
+    // Made async so we can "await" the database save before refreshing the list.
+    private async Task SaveModule()
     {
         if (isEditing)
         {
-            ModuleService.Update(editingModule);
+            await ModuleService.UpdateAsync(editingModule);
         }
         else
         {
-            ModuleService.Add(editingModule);
+            await ModuleService.AddAsync(editingModule);
         }
 
-        LoadModules();
+        await LoadModulesAsync();
 
         CloseModuleModal();
     }
@@ -563,14 +568,15 @@
     }
 
 
-    private void DeleteModule()
+    // Made async so we can "await" the database delete before refreshing the list.
+    private async Task DeleteModule()
     {
         if (moduleToDelete == null)
             return;
 
-        ModuleService.Delete(moduleToDelete.Id);
+        await ModuleService.DeleteAsync(moduleToDelete.Id);
 
-        LoadModules();
+        await LoadModulesAsync();
 
         CloseDeleteModal();
     }

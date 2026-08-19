@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using StudentResultApp.Components;
+using StudentResultApp.Data;
 using StudentResultApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddScoped<ModuleService>();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration["AZURE_SQL_CONNECTIONSTRING"]));
 
 var app = builder.Build();
 
