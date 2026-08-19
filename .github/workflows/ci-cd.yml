@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - testing-environment
 
   pull_request:
     branches:
@@ -34,9 +35,13 @@ jobs:
       - name: Publish Application
         run: dotnet publish StudentResultApp/StudentResultApp.csproj --configuration Release --output ./publish
 
+      # Pushes to main deploy to production. Pushes to testing-environment
+      # deploy to the "testing" slot instead, so the two never overwrite
+      # each other.
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'student-result-app'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          slot-name: ${{ github.ref_name == 'testing-environment' && 'testing' || 'production' }}
+          publish-profile: ${{ github.ref_name == 'testing-environment' && secrets.AZURE_WEBAPP_PUBLISH_PROFILE_TESTING || secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: ./publish

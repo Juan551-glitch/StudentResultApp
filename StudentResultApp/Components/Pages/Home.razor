@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Microsoft.EntityFrameworkCore
 @using StudentResultApp.Data
+@using StudentResultApp.Models
 @inject AppDbContext DbContext
 
 <div class="container-fluid dashboard-container">
@@ -34,43 +35,61 @@
 
     <!-- KPI SECTION -->
     <div class="row g-4 mt-2">
-      
+
         <div class="col-md-3">
-            <div class="card stats-card border-0 shadow-sm">
+            <div class="card stats-card stats-card-blue shadow-sm">
                 <div class="card-body">
+                    <div class="stats-icon stats-icon-blue">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                    </div>
                     <h6 class="stats-title">Students</h6>
                     <!-- Was a hardcoded "14". Now shows the real count from the database. -->
                     <h2 class="stats-value">@studentCount</h2>
-                    <p class="stats-text">Registered learners</p>
+                    <p class="stats-text">
+                        @(studentCount == 0 ? "No students captured yet" : "Registered learners")
+                    </p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card stats-card border-0 shadow-sm">
+            <div class="card stats-card stats-card-purple shadow-sm">
                 <div class="card-body">
+                    <div class="stats-icon stats-icon-purple">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
+                    </div>
                     <h6 class="stats-title">Modules</h6>
                     <!-- Was a hardcoded "4". Now shows the real count from the database. -->
                     <h2 class="stats-value">@moduleCount</h2>
-                    <p class="stats-text">Academic modules</p>
+                    <p class="stats-text">
+                        @(moduleCount == 0 ? "No modules added yet" : $"{activeModuleCount} active, {moduleCount - activeModuleCount} inactive")
+                    </p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card stats-card border-0 shadow-sm">
+            <div class="card stats-card stats-card-@passRateAccent shadow-sm">
                 <div class="card-body">
+                    <div class="stats-icon @passRateIconClass">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18" /><path d="m19 9-5 5-4-4-3 3" /></svg>
+                    </div>
                     <h6 class="stats-title">Pass Rate</h6>
-                    <!-- Was a hardcoded "86%". Now calculated from real student marks. -->
-                    <h2 class="stats-value">@passRateText</h2>
-                    <p class="stats-text">Performance summary</p>
+                    <!-- Was a hardcoded "86%". Now calculated from real student marks, and colored by how good it is. -->
+                    <h2 class="stats-value @passRateTextClass">@passRateText</h2>
+                    <p class="stats-text">
+                        @(studentCount == 0 ? "Add students to see this" : $"{passCount} passed, {studentCount - passCount} failed")
+                    </p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card stats-card border-0 shadow-sm status-card">
+            <div class="card stats-card stats-card-green shadow-sm status-card">
                 <div class="card-body">
+                    <div class="stats-icon stats-icon-green">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                    </div>
                     <h6 class="stats-title">Deployment</h6>
                     <h2 class="stats-value text-success">Live</h2>
                     <p class="stats-text">Azure App Service active</p>
@@ -80,26 +99,62 @@
 
     </div>
 
-    <!-- FEATURE SECTION -->
+    <!-- QUICK ACTIONS -->
+    <div class="quick-actions mt-4">
+        <a class="quick-action-link" href="/modules">
+            <span>Manage Modules</span>
+            <span class="quick-action-arrow">&rarr;</span>
+        </a>
+        <a class="quick-action-link" href="/student-results">
+            <span>Capture Student Results</span>
+            <span class="quick-action-arrow">&rarr;</span>
+        </a>
+    </div>
+
+    <!-- RECENT ACTIVITY SECTION -->
     <div class="row mt-5 g-4">
 
-        <div class="col-md-6">
+        <div class="col-md-7">
 
             <div class="card feature-card shadow-sm border-0">
 
                 <div class="card-header feature-header">
-                    System Features
+                    Recent Student Results
                 </div>
 
-                <div class="card-body">
+                <div class="card-body p-0">
 
-                    <ul class="feature-list">
-                        <li>Capture and manage student marks</li>
-                        <li>Generate pass/fail results automatically</li>
-                        <li>Display results in structured tables</li>
-                        <li>Support DevOps-based development workflows</li>
-                        <li>Deploy automatically to Microsoft Azure</li>
-                    </ul>
+                    @if (recentStudents.Count == 0)
+                    {
+                        <p class="empty-panel-text">No student results captured yet.</p>
+                    }
+                    else
+                    {
+                        <table class="table table-borderless recent-table mb-0">
+                            <tbody>
+                                @foreach (var s in recentStudents)
+                                {
+                                    <tr>
+                                        <td class="recent-name">
+                                            @s.FullName
+                                            <div class="recent-sub">@s.StudentNumber &middot; @s.Module</div>
+                                        </td>
+                                        <td class="text-end recent-mark">@s.Mark%</td>
+                                        <td class="text-end">
+                                            @if (s.Mark >= 50)
+                                            {
+                                                <span class="badge bg-success">Pass</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Fail</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
 
                 </div>
 
@@ -107,26 +162,43 @@
 
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-5">
 
             <div class="card feature-card shadow-sm border-0">
 
                 <div class="card-header feature-header">
-                    CI/CD Workflow
+                    Module Overview
                 </div>
 
                 <div class="card-body">
 
+                    @if (moduleCount == 0)
+                    {
+                        <p class="empty-panel-text">No modules added yet.</p>
+                    }
+                    else
+                    {
+                        <!-- A simple bar showing what share of modules are Active vs Inactive. -->
+                        <div class="module-bar">
+                            <div class="module-bar-fill" style="width: @(activeModulePercent)%"></div>
+                        </div>
+                        <div class="module-bar-legend">
+                            <span><span class="legend-dot legend-dot-green"></span> Active (@activeModuleCount)</span>
+                            <span><span class="legend-dot legend-dot-gray"></span> Inactive (@(moduleCount - activeModuleCount))</span>
+                        </div>
+                    }
+
+                    <hr class="my-3" />
+
                     <p class="workflow-text">
                         This application integrates GitHub Actions,
-                        automated build validation, testing,
-                        publishing, and deployment to Azure App Service
-                        using modern DevOps engineering practices.
+                        automated build validation, testing, publishing,
+                        and deployment to Azure App Service.
                     </p>
 
                     <a class="btn btn-outline-primary workflow-btn"
-                       href="/student-results">
-                        View Result Dashboard
+                       href="/modules">
+                        Manage Modules
                     </a>
 
                 </div>
@@ -144,22 +216,70 @@
     // These hold the real numbers we show on the dashboard cards above.
     private int studentCount;
     private int moduleCount;
+    private int activeModuleCount;
+    private int passCount;
     private string passRateText = "0%";
+
+    // These control the color of the pass rate number and its icon badge,
+    // so a low pass rate reads as a warning and a high one reads as good news.
+    private string passRateTextClass = "";
+    private string passRateIconClass = "stats-icon-blue";
+    private string passRateAccent = "blue";
+
+    // How much of the "Active vs Inactive" bar should be filled in green.
+    private double activeModulePercent;
+
+    // The most recently added students, shown in the "Recent Student
+    // Results" panel.
+    private List<Student> recentStudents = new();
 
     // Runs when the page first loads, and reads real numbers from the database.
     protected override async Task OnInitializedAsync()
     {
         studentCount = await DbContext.Students.CountAsync();
         moduleCount = await DbContext.Modules.CountAsync();
+        activeModuleCount = await DbContext.Modules.CountAsync(m => m.Status == "Active");
+
+        if (moduleCount > 0)
+        {
+            activeModulePercent = activeModuleCount * 100.0 / moduleCount;
+        }
+
+        // Grab the last 5 students added (highest Id = most recently added),
+        // to show on the "Recent Student Results" panel.
+        recentStudents = await DbContext.Students
+            .OrderByDescending(s => s.Id)
+            .Take(5)
+            .ToListAsync();
 
         if (studentCount > 0)
         {
             // Count how many students passed (mark 50 or higher).
-            var passCount = await DbContext.Students.CountAsync(s => s.Mark >= 50);
+            passCount = await DbContext.Students.CountAsync(s => s.Mark >= 50);
 
             // Turn that into a percentage, e.g. 3 passes out of 4 students = 75%.
             var passRate = (int)Math.Round(passCount * 100.0 / studentCount);
             passRateText = $"{passRate}%";
+
+            // Pick a color based on how good the pass rate is.
+            if (passRate >= 75)
+            {
+                passRateTextClass = "text-success";
+                passRateIconClass = "stats-icon-green";
+                passRateAccent = "green";
+            }
+            else if (passRate >= 50)
+            {
+                passRateTextClass = "text-warning";
+                passRateIconClass = "stats-icon-amber";
+                passRateAccent = "amber";
+            }
+            else
+            {
+                passRateTextClass = "text-danger";
+                passRateIconClass = "stats-icon-red";
+                passRateAccent = "red";
+            }
         }
         else
         {
