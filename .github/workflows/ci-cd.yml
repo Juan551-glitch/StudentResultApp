@@ -42,6 +42,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'StudentResultApp'
-          slot-name: ${{ github.ref_name == 'testing-environment' && 'testing' || 'production' }}
-          publish-profile: ${{ github.ref_name == 'testing-environment' && secrets.AZURE_WEBAPP_PUBLISH_PROFILE_TESTING || secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: ./publish
