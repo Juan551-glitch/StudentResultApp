@@ -11,7 +11,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddScoped<ModuleService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration["AZURE_SQL_CONNECTIONSTRING"]));
+    options.UseSqlServer(builder.Configuration["DefaultConnection"]));
 
 var app = builder.Build();
 
