@@ -1,4 +1,7 @@
 ﻿@page "/"
+@using Microsoft.EntityFrameworkCore
+@using StudentResultApp.Data
+@inject AppDbContext DbContext
 
 <div class="container-fluid dashboard-container">
 
@@ -36,7 +39,8 @@
             <div class="card stats-card border-0 shadow-sm">
                 <div class="card-body">
                     <h6 class="stats-title">Students</h6>
-                    <h2 class="stats-value">14</h2>
+                    <!-- Was a hardcoded "14". Now shows the real count from the database. -->
+                    <h2 class="stats-value">@studentCount</h2>
                     <p class="stats-text">Registered learners</p>
                 </div>
             </div>
@@ -46,7 +50,8 @@
             <div class="card stats-card border-0 shadow-sm">
                 <div class="card-body">
                     <h6 class="stats-title">Modules</h6>
-                    <h2 class="stats-value">4</h2>
+                    <!-- Was a hardcoded "4". Now shows the real count from the database. -->
+                    <h2 class="stats-value">@moduleCount</h2>
                     <p class="stats-text">Academic modules</p>
                 </div>
             </div>
@@ -56,7 +61,8 @@
             <div class="card stats-card border-0 shadow-sm">
                 <div class="card-body">
                     <h6 class="stats-title">Pass Rate</h6>
-                    <h2 class="stats-value">86%</h2>
+                    <!-- Was a hardcoded "86%". Now calculated from real student marks. -->
+                    <h2 class="stats-value">@passRateText</h2>
                     <p class="stats-text">Performance summary</p>
                 </div>
             </div>
@@ -132,3 +138,34 @@
     </div>
 
 </div>
+
+@code {
+
+    // These hold the real numbers we show on the dashboard cards above.
+    private int studentCount;
+    private int moduleCount;
+    private string passRateText = "0%";
+
+    // Runs when the page first loads, and reads real numbers from the database.
+    protected override async Task OnInitializedAsync()
+    {
+        studentCount = await DbContext.Students.CountAsync();
+        moduleCount = await DbContext.Modules.CountAsync();
+
+        if (studentCount > 0)
+        {
+            // Count how many students passed (mark 50 or higher).
+            var passCount = await DbContext.Students.CountAsync(s => s.Mark >= 50);
+
+            // Turn that into a percentage, e.g. 3 passes out of 4 students = 75%.
+            var passRate = (int)Math.Round(passCount * 100.0 / studentCount);
+            passRateText = $"{passRate}%";
+        }
+        else
+        {
+            // No students yet, so there is no pass rate to calculate.
+            passRateText = "N/A";
+        }
+    }
+
+}
